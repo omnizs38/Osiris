@@ -1,7 +1,7 @@
 # Osiris
 
-[![Windows](https://github.com/danielkrupinski/Osiris/actions/workflows/windows.yml/badge.svg?branch=master&event=push)](https://github.com/danielkrupinski/Osiris/actions/workflows/windows.yml)
-[![Linux](https://github.com/danielkrupinski/Osiris/actions/workflows/linux.yml/badge.svg?branch=master&event=push)](https://github.com/danielkrupinski/Osiris/actions/workflows/linux.yml)
+[![Windows](https://github.com/omnizs38/Osiris/actions/workflows/windows.yml/badge.svg?branch=master&event=push)](https://github.com/omnizs38/Osiris/actions/workflows/windows.yml)
+[![Linux](https://github.com/omnizs38/Osiris/actions/workflows/linux.yml/badge.svg?branch=master&event=push)](https://github.com/omnizs38/Osiris/actions/workflows/linux.yml)
 
 Cross-platform (Windows, Linux) game hack for **Counter-Strike 2** with GUI and rendering based on game's Panorama UI. Compatible with the latest game update on Steam.
 
@@ -60,15 +60,22 @@ Open **Osiris.sln** in Visual Studio 2022, set build configuration to **Release 
 
 #### Linux
 
-Configure with CMake:
+Configure and build with the release preset:
 
-    cmake -DCMAKE_BUILD_TYPE=Release -B build
+    cmake --preset release
+    cmake --build --preset release -j $(nproc --all)
 
-Build:
+After following these steps you should receive **libOsiris.so** file in **build/release/Source/** directory.
 
-    cmake --build build -j $(nproc --all)
+### Running tests
 
-After following these steps you should receive **libOsiris.so** file in **build/Source/** directory.
+Configure, build, and run all unit and functional tests:
+
+    cmake --preset test-debug
+    cmake --build --preset test-debug
+    ctest --preset test-debug
+
+Use the `test-release` preset to run the same test suite against a release build. `ENABLE_TESTS` also accepts `unit`, `functional`, or the semicolon-separated `unit;functional` value when configuring manually.
 
 ### Loading / Injecting into game process
 
@@ -98,4 +105,4 @@ In a configuration file `default.cfg` inside `%appdata%\OsirisCS2\configs` direc
 
 > Copyright (c) 2018-2025 Daniel Krupiński
 
-This project is licensed under the [MIT License](https://opensource.org/licenses/mit-license.php) - see the [LICENSE](https://github.com/danielkrupinski/Osiris/blob/master/LICENSE) file for details.
+This project is licensed under the [MIT License](https://opensource.org/licenses/mit-license.php) - see the [LICENSE](https://github.com/omnizs38/Osiris/blob/master/LICENSE) file for details.
