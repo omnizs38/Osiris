@@ -174,7 +174,6 @@ protected:
     void setVariableExpectationsCurrent()
     {
         setVariableExpectationsV10();
-        get<player_info_vars::RadarEnabled>() = false;
         get<diagnostics_vars::SafeModeEnabled>() = false;
         get<EnemyFootstepDirectionEnabled>() = false;
     }
@@ -349,4 +348,9 @@ TEST_F(ConfigCompatibilityLoadTest, EnemyFootstepDirectionEnabled) {
     std::vector<char8_t> contents{text.begin(), text.end()};
     prepareLoadOperation(contents);
     config.update();
+}
+
+TEST_F(ConfigCompatibilityLoadTest, RemovedRadarSettingIsIgnored) {
+    setVariableExpectationsCurrent();
+    testLoadingConfigFile("config_legacy_radar.cfg");
 }

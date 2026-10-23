@@ -74,6 +74,12 @@ public:
             valueSetter(value);
     }
 
+    // Consume retired boolean settings without retaining them in new configs.
+    void ignoreBoolean(const char8_t* key)
+    {
+        boolean(key, [](bool) {}, [] { return false; });
+    }
+
     [[nodiscard]] bool isValid() const noexcept
     {
         return !parsingFailed;

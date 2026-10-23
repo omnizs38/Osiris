@@ -43,7 +43,7 @@ public:
         setPatternLabel(mainMenu, "diagnostics_filesystem_patterns", "Filesystem patterns", patterns.fileSystemPatternsValid());
         setPatternLabel(mainMenu, "diagnostics_sound_patterns", "Sound system patterns", patterns.soundSystemPatternsValid());
         setPatternLabel(mainMenu, "diagnostics_panorama_patterns", "Panorama patterns", patterns.panoramaPatternsValid());
-        setLabel(mainMenu, "diagnostics_offsets", "Offsets: radar 0x1E88 + 0x08; dynamic offsets follow signature status");
+        setLabel(mainMenu, "diagnostics_offsets", "Offsets: signature matches do not verify all runtime schema offsets");
         setLabel(mainMenu, "diagnostics_safe_mode_status", GET_CONFIG_VAR(diagnostics_vars::SafeModeEnabled) ? "Safe mode: ON" : "Safe mode: OFF");
     }
 

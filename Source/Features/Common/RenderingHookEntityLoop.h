@@ -10,7 +10,6 @@
 #include <Features/Visuals/PlayerInfoInWorld/PlayerInfoInWorld.h>
 #include <GameClient/EntitySystem/EntitySystem.h>
 #include <Features/Hud/BombPlantAlert/BombPlantAlert.h>
-#include <Features/Visuals/Radar/Radar.h>
 #include <Features/Diagnostics/DiagnosticsConfigVariables.h>
 
 template <typename HookContext>
@@ -41,7 +40,6 @@ private:
 
         if (entityTypeInfo.template is<cs2::C_CSPlayerPawn>()) {
             auto&& playerPawn = baseEntity.template as<PlayerPawn>();
-            hookContext.template make<Radar>().update(playerPawn);
             hookContext.template make<PlayerInfoInWorld>().drawPlayerInformation(playerPawn);
             updateModelGlow<PlayerModelGlow>(playerPawn, entityTypeInfo);
             applyOutlineGlow<PlayerOutlineGlow>(playerPawn, entityTypeInfo);

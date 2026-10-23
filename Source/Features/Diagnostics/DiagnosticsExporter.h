@@ -87,10 +87,7 @@ private:
         builder.put("  soundsystem: ", status(patterns.soundSystemPatternsValid()), '\n');
         builder.put("  panorama: ", status(patterns.panoramaPatternsValid()), '\n');
         builder.put("  all: ", status(patterns.isValid()), '\n');
-        builder.put("Known schema offsets:\n");
-        builder.put("  radar entity spotted state: 0x1E88\n");
-        builder.put("  radar spotted flag: 0x08\n");
-        builder.put("Note: dynamic offsets are validated through the pattern groups above.\n");
+        builder.put("Note: signature matches do not verify all runtime schema offsets.\n");
     }
 
     static constexpr std::size_t kMaxPathLength{512};

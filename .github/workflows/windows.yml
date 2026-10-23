@@ -1,6 +1,9 @@
 name: Windows
 
-on: [push, pull_request]
+on: [push, pull_request, workflow_dispatch]
+
+permissions:
+  contents: read
 
 jobs:
   msbuild:
@@ -34,14 +37,27 @@ jobs:
       if: matrix.toolset == 'ClangCL'
       run: echo "toolset=-T ${{ matrix.toolset }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
     - name: configure
-      run: cmake -Werror=dev -D ENABLE_TESTS="unit;functional" -D CMAKE_COMPILE_WARNING_AS_ERROR=1 -A x64 ${{ env.toolset }} -B build
+      run: cmake -Werror=dev -DENABLE_TESTS="unit;functional" -DCMAKE_COMPILE_WARNING_AS_ERROR=1 -DCMAKE_UNITY_BUILD=ON -DCMAKE_UNITY_BUILD_BATCH_SIZE=4 -A x64 ${{ env.toolset }} -B build
     - name: build source
       run: cmake --build build --target Osiris --config ${{ matrix.configuration }}
     - name: build unit tests
       run: cmake --build build --target UnitTests --config ${{ matrix.configuration }}
+    - name: build sound tests
+      run: cmake --build build --target SoundTests --config ${{ matrix.configuration }}
+    - name: run sound tests
+      run: ctest -R ^Sound_ --test-dir build -C ${{ matrix.configuration }} --output-on-failure --no-tests=error
     - name: build functional tests
       run: cmake --build build --target FunctionalTests --config ${{ matrix.configuration }}
     - name: run unit tests
       run: ctest -R ^Unit --test-dir build -C ${{ matrix.configuration }} --output-on-failure --no-tests=error --schedule-random -j $env:NUMBER_OF_PROCESSORS
     - name: run functional tests
       run: ctest -R ^Functional --test-dir build -C ${{ matrix.configuration }} --output-on-failure --no-tests=error --schedule-random -j $env:NUMBER_OF_PROCESSORS
+
+    - name: Upload Windows Release DLL
+      if: matrix.os == 'windows-2022' && matrix.toolset == 'MSVC' && matrix.configuration == 'Release'
+      uses: actions/upload-artifact@v4
+      with:
+        name: Osiris-Windows-x64
+        path: build/Source/Release/Osiris.dll
+        if-no-files-found: error
+        retention-days: 7

@@ -332,3 +332,7 @@ ASALocalRun/
 
 # Local History for Visual Studio
 .localhistory/
+# Local Windows build and diagnostics
+/build-windows/
+/build-logs/
+/dist/
